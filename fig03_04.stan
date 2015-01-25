@@ -14,12 +14,12 @@ parameters {
 }
 transformed parameters {
   vector[n] yhat;
-  yhat[1] <- mu[1];
-  for(t in 2:n) {
-    yhat[t] <- mu[t] + v;
+  for(t in 1:n) {
+    yhat[t] <- mu[t];
   }
 }
 model {
+  # 式 3.3
   for(t in 2:n)
     mu[t] ~ normal(mu[t-1] + v, sigma_level);
   for(t in 1:n)

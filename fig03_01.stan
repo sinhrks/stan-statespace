@@ -16,12 +16,12 @@ parameters {
 }
 transformed parameters {
   vector[n] yhat;
-  yhat[1] <- mu[1];
-  for(t in 2:n) {
-    yhat[t] <- mu[t] + v[t - 1];
+  for(t in 1:n) {
+    yhat[t] <- mu[t];
   }
 }
 model {
+  # 式 3.1
   for(t in 2:n)
     v[t] ~ normal(v[t-1], sigma_drift);
   for(t in 2:n)
