@@ -1,0 +1,55 @@
+#' Data reader and common utility functions
+
+# library(devtools)
+# install_github('hoxo-m/pforeach')
+library(pforeach)
+library(ggplot2)
+# install_github('sinhrks/ggfortify')
+library(ggfortify)
+
+ukdrivers <- read.table('UKdriversKSI.txt', skip = 1)
+ukdrivers <- ts(ukdrivers[[1]], start = c(1969, 1), frequency = 12)
+ukdrivers <- log(ukdrivers)
+
+ukinflation <- read.table('UKinflation.txt', skip = 1)
+ukinflation <- ts(ukinflation[[1]], start = c(1950, 1), frequency = 4)
+
+ukpetrol <- read.table('logUKpetrolprice.txt', skip = 1)
+ukpetrol <- ts(ukpetrol[[1]], start = start(ukdrivers), frequency = frequency(ukdrivers))
+
+ukseats <- c(rep(0, (1982 - 1968) * 12 + 1), rep(1, (1984 - 1982) * 12 - 1))
+ukseats <- ts(ukseats, start = start(ukdrivers), frequency = frequency(ukdrivers))
+
+fatalities <- read.table('Norwayfinland.txt', skip = 1)
+colnames(fatalities) <- c('year', 'Norwegian_fatalities',
+                        'Finnish_fatalities')
+norwegian_fatalities <- fatalities[['Norwegian_fatalities']]
+norwegian_fatalities <- log(ts(norwegian_fatalities, start = 1970, frequency = 1))
+finnish_fatalities <- fatalities[['Finnish_fatalities']]
+finnish_fatalities <- log(ts(finnish_fatalities, start = 1970, frequency = 1))
+
+#' Check \code{rstan::stanfit} is converged
+#' 
+#' @param stanfit \code{rstan::stanfit} instance
+#' @return logical
+#' @export
+is.converged <- function(stanfit) {
+  summarized <- summary(stanfit)  
+  all(summarized$summary[, 'Rhat'] < 1.1)
+}
+
+#' Parallerize stan execution using \code{pforeach} 
+#' 
+#' @param file stan file name
+#' @param chains number of chains
+#' @param ... options \code{stan::stanfit} 
+#' @return \code{stan::stanfit} 
+#' @export
+pstan <- function(file, chains = 4, ...) {
+  # Not work yet
+  fitter <- stan(file = file, chains = 0)
+  sflist <- pforeach(i=1:chains)({
+    stan(fit = fitter, chains = 1, seed = 1, ...)
+  })
+  sflist2stanfit(sflist)
+}
