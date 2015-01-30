@@ -4,12 +4,11 @@ source('common.R', encoding = 'utf-8')
 y <- ukdrivers
 w <- ukseats
 
-standata <-
-  within(list(), {
-    y <- as.vector(y)
-    w <- as.vector(w)
-    n <- length(y)
-  })
+standata <- within(list(), {
+  y <- as.vector(y)
+  w <- as.vector(w)
+  n <- length(y)
+})
 
 fit <- stan(file = 'fig06_01.stan', data = standata, iter = 2000)
 stopifnot(is.converged(fit))

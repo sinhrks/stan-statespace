@@ -38,6 +38,26 @@ is.converged <- function(stanfit) {
   all(summarized$summary[, 'Rhat'] < 1.1)
 }
 
+#' Check \code{rstan::stanfit} is fitted to expected value
+#' 
+#' @param stanfit \code{rstan::stanfit} instance
+#' @param par parameter to be checked
+#' @param expected expected value
+#' @param tolerance tolerance
+#' @return logical
+#' @export
+is.almost.fitted <- function(result, expected, tolerance = 0.001) {
+  if (abs(result - expected) > tolerance) {
+    print(paste('Result is ', result))
+    return(FALSE)
+  } else {
+    return(TRUE)
+  }
+}
+
+
+
+
 #' Parallerize stan execution using \code{pforeach} 
 #' 
 #' @param file stan file name

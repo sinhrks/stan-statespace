@@ -3,9 +3,9 @@ data {
   vector[n] y;
 }
 parameters {
-  # 確定的レベル
+  # 確率的レベル
   vector[n] mu;
-  # 確定的季節項
+  # 確率的季節項
   vector[n] seasonal;
   # レベル撹乱項
   real<lower=0> sigma_level;

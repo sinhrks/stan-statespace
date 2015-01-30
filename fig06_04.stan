@@ -6,7 +6,7 @@ data {
 parameters {
   # 確率的レベル
   vector[n] mu;
-  # 確定的係数 (用語確認)
+  # 確定的係数
   real lambda;
   # レベル撹乱項
   real<lower=0> sigma_level;

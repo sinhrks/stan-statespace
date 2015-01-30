@@ -3,11 +3,10 @@ library(rstan)
 source('common.R', encoding = 'utf-8')
 y <- ukdrivers
 
-standata <-
-  within(list(), {
-    y <- as.vector(y)
-    n <- length(y)
-  })
+standata <- within(list(), {
+  y <- as.vector(y)
+  n <- length(y)
+})
 
 fit <- stan(file = 'fig01_01.stan', data = standata)
 stopifnot(is.converged(fit))

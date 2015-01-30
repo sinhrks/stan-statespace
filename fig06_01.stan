@@ -6,7 +6,7 @@ data {
 parameters {
   # 確定的レベル
   real mu;
-  # 確定的係数 (用語確認)
+  # 確定的係数
   real lambda;
   # 観測撹乱項
   real<lower=0> sigma_irreg;

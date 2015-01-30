@@ -4,14 +4,13 @@ source('common.R', encoding = 'utf-8')
 y <- ukdrivers
 x <- ukpetrol
 
-standata <-
-  within(list(), {
-    y <- as.vector(y)
-    x <- as.vector(x)
-    n <- length(y)
-  })
+standata <- within(list(), {
+  y <- as.vector(y)
+  x <- as.vector(x)
+  n <- length(y)
+})
 
-fit <- stan(file = 'fig05_04.stan', data = standata, iter = 2000)
+fit <- stan(file = 'fig05_04.stan', data = standata, iter = 8000)
 stopifnot(is.converged(fit))
 
 yhat <- get_posterior_mean(fit, par = 'yhat')[, 'mean-all chains']

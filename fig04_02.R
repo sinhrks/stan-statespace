@@ -3,11 +3,10 @@ library(rstan)
 source('common.R', encoding = 'utf-8')
 y <- ukdrivers
 
-standata <-
-  within(list(), {
-    y <- as.vector(y)
-    n <- length(y)
-  })
+standata <- within(list(), {
+  y <- as.vector(y)
+  n <- length(y)
+})
 
 stan_fit <- stan(file = 'fig04_02.stan', chains = 0)
 sflist <- pforeach(i=1:3)({

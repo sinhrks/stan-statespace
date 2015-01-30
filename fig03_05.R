@@ -36,8 +36,6 @@ p + ggtitle(title)
 #################################################
 
 title <- 'Figure 3.5.2 Stochastic slope component for Finnish fatalities.'
-
-# stan
 slope <- ts(v, start = start(y), frequency = frequency(y))
 autoplot(slope) + ggtitle(title)
 

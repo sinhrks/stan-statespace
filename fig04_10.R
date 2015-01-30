@@ -4,11 +4,10 @@ library(pforeach)
 source('common.R', encoding = 'utf-8')
 y <- ukinflation
 
-standata <-
-  within(list(), {
-    y <- as.vector(y)
-    n <- length(y)
-  })
+standata <- within(list(), {
+  y <- as.vector(y)
+  n <- length(y)
+})
 
 # can use the same model as fig04_06
 stan_fit <- stan(file = 'fig04_06.stan', chains = 0)
