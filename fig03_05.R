@@ -9,13 +9,17 @@ standata <-
     n <- length(y)
   })
 
-# can use the same model as fig03_01
-fit <- stan(file = 'fig03_01.stan', data = standata)
+fit <- stan(file = 'fig03_05.stan', data = standata)
 stopifnot(is.converged(fit))
 
 mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
 v <- get_posterior_mean(fit, par = 'v')[, 'mean-all chains']
-
+sigma_irreg <- get_posterior_mean(fit, par = 'sigma_irreg')[, 'mean-all chains']
+sigma_level <- get_posterior_mean(fit, par = 'sigma_drift')[, 'mean-all chains']
+stopifnot(is.almost.fitted(mu[[1]], 7.0133))
+stopifnot(is.almost.fitted(v[[1]], 0.0068482))
+stopifnot(is.almost.fitted(sigma_irreg^2, 0.00320083)
+stopifnot(is.almost.fitted(sigma_drift^2, 0.00153314))
 
 #################################################
 # Figure 3.5.1

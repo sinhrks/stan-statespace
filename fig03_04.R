@@ -8,14 +8,17 @@ standata <- within(list(), {
   n <- length(y)
 })
 
-fit <- stan(file = 'fig03_04.stan', data = standata)
+fit <- stan(file = 'fig03_04.stan', data = standata, iter = 4000)
 stopifnot(is.converged(fit))
 
 mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
-all.equal(mu[[1]], 7.4150, tolerance = 0.01)
-mu <- get_posterior_mean(fit, par = 'sigma_level')[, 'mean-all chains']
-almost_fitted(fit, 'mu', 7.4150)
-
+v <- get_posterior_mean(fit, par = 'v')[, 'mean-all chains']
+sigma_irreg <- get_posterior_mean(fit, par = 'sigma_irreg')[, 'mean-all chains']
+sigma_level <- get_posterior_mean(fit, par = 'sigma_level')[, 'mean-all chains']
+stopifnot(is.almost.fitted(mu[[1]], 7.4157))
+stopifnot(is.almost.fitted(v, 0.00028897))
+stopifnot(is.almost.fitted(sigma_irreg^2, 0.00211869))
+stopifnot(is.almost.fitted(sigma_level^2, 0.0121271))
 
 #################################################
 # Figure 3.4
@@ -30,6 +33,3 @@ p <- autoplot(y)
 yhat <- ts(mu, start = start(y), frequency = frequency(y))
 p <- autoplot(yhat, p = p, ts.colour = 'blue')
 p + ggtitle(title)
-
-
-

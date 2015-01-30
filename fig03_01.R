@@ -56,7 +56,7 @@ p + ggtitle(title)
 #################################################
 
 fmt <- function(){
-  function(x) format(x, nsmall = 4, scientific = FALSE)
+  function(x) format(x, nsmall = 5, scientific = FALSE)
 }
 
 title <- 'Figure 3.2. Slope of stochastic linear trend model.'
