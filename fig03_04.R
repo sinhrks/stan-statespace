@@ -1,19 +1,32 @@
 library(rstan)
 
-original <- read.table('UKdriversKSI.txt', skip = 1)
-data <- original[[1]]
-data <- log(data)
+source('common.R', encoding = 'utf-8')
+y <- ukdrivers
 
 standata <-
   within(list(), {
-    y <- as.vector(data)
+    y <- as.vector(y)
     n <- length(y)
   })
 
 fit <- stan(file = 'fig03_04.stan', data = standata)
-mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
-v <- get_posterior_mean(fit, par = 'v')[, 'mean-all chains']
+stopifnot(is.converged(fit))
 
-plot(data, type = 'l')
-lines(mu, col = 'blue')
+mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
+
+#################################################
+# Figure 3.4
+#################################################
+
+title <- 'Figure 3.4. Trend of stochastic level and deterministic slope model.'
+
+# 原系列
+p <- autoplot(y)
+
+# stan
+yhat <- ts(mu, start = start(y), frequency = frequency(y))
+p <- autoplot(yhat, p = p, ts.colour = 'blue')
+p + ggtitle(title)
+
+
 

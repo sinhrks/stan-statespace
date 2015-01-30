@@ -1,22 +1,39 @@
 library(rstan)
 
-original <- read.table('UKdriversKSI.txt', skip = 1)
-data <- original[[1]]
-data <- log(data)
+source('common.R', encoding = 'utf-8')
+y <- ukdrivers
 
 standata <-
   within(list(), {
-    y <- as.vector(data)
+    y <- as.vector(y)
     n <- length(y)
   })
 
 fit <- stan(file = 'fig02_01.stan', data = standata)
+stopifnot(is.converged(fit))
+
 mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
 
-plot(data, type = 'l')
+#################################################
+# Figure 2.1
+#################################################
+
+title <- 'Figure 2.1. Deterministic level.'
+
+# 原系列
+p <- autoplot(y)
 
 # stan
-abline(h = mu, col = 'blue')
+p <- p + geom_hline(yintercept = mu, colour = 'blue')
 
 # 通常の計算結果
-abline(h = mean(data), col = 'red', lty = 'dashed')
+p <- p + geom_hline(yintercept = mean(y),
+                    colour = 'red', linetype = 'dashed')
+p + ggtitle(title)
+
+#################################################
+# Figure 2.2
+#################################################
+
+title <- 'Figure 2.2. Irregular component for deterministic level model.'
+autoplot(y - mu, ts.linetype = 'dashed') + ggtitle(title)

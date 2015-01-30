@@ -6,7 +6,7 @@ parameters {
   # 確率的レベル
   vector[n] mu;
   # 確率的傾き
-  vector[n] v;
+  vector[n-1] v;
   # レベル撹乱項
   real<lower=0> sigma_level;
   # 傾き撹乱項
@@ -22,7 +22,7 @@ transformed parameters {
 }
 model {
   # 式 3.1
-  for(t in 2:n)
+  for(t in 2:n-1)
     v[t] ~ normal(v[t-1], sigma_drift);
   for(t in 2:n)
     mu[t] ~ normal(mu[t-1] + v[t-1], sigma_level);
