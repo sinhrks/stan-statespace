@@ -22,6 +22,14 @@ mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
 yhat <- get_posterior_mean(fit, par = 'yhat')[, 'mean-all chains']
 seasonal <- get_posterior_mean(fit, par = 'seasonal')[, 'mean-all chains']
 
+sigma_irreg <- get_posterior_mean(fit, par = 'sigma_irreg')[, 'mean-all chains']
+sigma_level <- get_posterior_mean(fit, par = 'sigma_level')[, 'mean-all chains']
+sigma_seas <- get_posterior_mean(fit, par = 'sigma_seas')[, 'mean-all chains']
+stopifnot(is.almost.fitted(mu[[208]], 0.0020426))
+stopifnot(is.almost.fitted(sigma_irreg^2, 3.3717e-5))
+stopifnot(is.almost.fitted(sigma_level^2, 2.1197e-5))
+stopifnot(is.almost.fitted(sigma_seas^2, 0.0109e-5))
+
 #################################################
 # Figure 4.10.1
 #################################################

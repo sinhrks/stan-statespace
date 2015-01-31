@@ -14,6 +14,13 @@ fit <- stan(file = 'fig06_01.stan', data = standata, iter = 2000)
 stopifnot(is.converged(fit))
 
 yhat <- get_posterior_mean(fit, par = 'yhat')[, 'mean-all chains']
+mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
+lambda <- get_posterior_mean(fit, par = 'lambda')[, 'mean-all chains']
+sigma_irreg <- get_posterior_mean(fit, par = 'sigma_irreg')[, 'mean-all chains']
+
+stopifnot(is.almost.fitted(mu, 7.4374))
+stopifnot(is.almost.fitted(lambda, -0.26111))
+stopifnot(is.almost.fitted(sigma_irreg^2, 0.0222426))
 
 #################################################
 # Figure 6.1

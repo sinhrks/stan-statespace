@@ -12,13 +12,14 @@ standata <-
 fit <- stan(file = 'fig03_05.stan', data = standata)
 stopifnot(is.converged(fit))
 
+yhat <- get_posterior_mean(fit, par = 'yhat')[, 'mean-all chains']
 mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
 v <- get_posterior_mean(fit, par = 'v')[, 'mean-all chains']
 sigma_irreg <- get_posterior_mean(fit, par = 'sigma_irreg')[, 'mean-all chains']
-sigma_level <- get_posterior_mean(fit, par = 'sigma_drift')[, 'mean-all chains']
-stopifnot(is.almost.fitted(mu[[1]], 7.0133))
+sigma_drift <- get_posterior_mean(fit, par = 'sigma_drift')[, 'mean-all chains']
+stopifnot(is.almost.fitted(mu, 7.0133))
 stopifnot(is.almost.fitted(v[[1]], 0.0068482))
-stopifnot(is.almost.fitted(sigma_irreg^2, 0.00320083)
+stopifnot(is.almost.fitted(sigma_irreg^2, 0.00320083))
 stopifnot(is.almost.fitted(sigma_drift^2, 0.00153314))
 
 #################################################
@@ -31,7 +32,7 @@ title <- 'Figure 3.5.1. Trend of deterministic level and stochastic slope model 
 p <- autoplot(y)
 
 # stan
-yhat <- ts(mu, start = start(y), frequency = frequency(y))
+yhat <- ts(yhat, start = start(y), frequency = frequency(y))
 p <- autoplot(yhat, p = p, ts.colour = 'blue')
 p + ggtitle(title)
 

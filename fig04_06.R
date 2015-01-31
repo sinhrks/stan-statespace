@@ -11,14 +11,19 @@ standata <- within(list(), {
 stan_fit <- stan(file = 'fig04_06.stan', chains = 0)
 sflist <- pforeach(i=1:3)({
   stan(fit = stan_fit, data = standata,
-       iter = 6000, chains = 1, seed = i)
+       iter = 8000, chains = 1, seed = i)
 })
 fit <- sflist2stanfit(sflist)
 stopifnot(is.converged(fit))
 
-mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
 yhat <- get_posterior_mean(fit, par = 'yhat')[, 'mean-all chains']
+mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
 seasonal <- get_posterior_mean(fit, par = 'seasonal')[, 'mean-all chains']
+
+sigma_irreg <- get_posterior_mean(fit, par = 'sigma_irreg')[, 'mean-all chains']
+sigma_level <- get_posterior_mean(fit, par = 'sigma_level')[, 'mean-all chains']
+stopifnot(is.almost.fitted(sigma_irreg^2, 0.00351385))
+stopifnot(is.almost.fitted(sigma_level^2, 0.000945723))
 
 #################################################
 # Figure 4.6
