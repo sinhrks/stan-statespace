@@ -4,10 +4,10 @@ Reproducing "An Introduction to State Space Time Series Analysis" using Stan
 
 Trying to reproduce the examples introduced in "An Introduction to State Space Time Series Analysis" using Stan.
 
-Example data must be downloaded by yourselves from:
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Example data:
+,,,,,,,,,,,,,
 
-- http://www.ssfpack.com/CKbook.html
+It must be downloaded from http://www.ssfpack.com/CKbook.html by yourselves.
     - logUKpetrolprice.txt
     - NorwayFinland.txt
     - UKdriversKSI.txt
@@ -59,10 +59,10 @@ Japanese
 
 Stan で　"状態空間時系列分析入門" を再現する
 
-サンプルデータはここから:
-,,,,,,,,,,,,,,,,,,,,,,,,,
+サンプルデータ:
+,,,,,,,,,,,,,,,
 
-- http://www.ssfpack.com/CKbook.html
+http://www.ssfpack.com/CKbook.html から 以下ファイルをダウンロードすること
     - logUKpetrolprice.txt
     - NorwayFinland.txt
     - UKdriversKSI.txt
@@ -99,12 +99,12 @@ Stan で　"状態空間時系列分析入門" を再現する
 9. 多変量時系列分析
 10. 時系列分析に対する状態空間法とボックス・ジェンキンス法
 
-**重要** いくつかのモデルはテキスト、ならびに Rの `{dlm}` パッケージとは異なる値となる
+**重要** いくつかのモデルはテキスト、ならびに Rの `{dlm}` パッケージとは異なる値となっている
 
 必要パッケージ:
 ,,,,,,,,,,,,,,,
 
 以下パッケージは  `devtools::install_github` でのインストールが必要。
 
-- `{pforeach} <https://github.com/hoxo-m/pforeach>`_ for parallel processing
-- `{ggfortify} <https://github.com/sinhrks/ggfortify>`_ for timeseries plotting
+- `{pforeach} <https://github.com/hoxo-m/pforeach>`_ ( 並列化に利用 )
+- `{ggfortify} <https://github.com/sinhrks/ggfortify>`_ ( `ts` インスタンスのプロットに利用 )
