@@ -11,14 +11,19 @@ ukdrivers <- read.table('UKdriversKSI.txt', skip = 1)
 ukdrivers <- ts(ukdrivers[[1]], start = c(1969, 1), frequency = 12)
 ukdrivers <- log(ukdrivers)
 
-ukinflation <- read.table('UKinflation.txt', skip = 1)
-ukinflation <- ts(ukinflation[[1]], start = c(1950, 1), frequency = 4)
-
 ukpetrol <- read.table('logUKpetrolprice.txt', skip = 1)
 ukpetrol <- ts(ukpetrol[[1]], start = start(ukdrivers), frequency = frequency(ukdrivers))
 
 ukseats <- c(rep(0, (1982 - 1968) * 12 + 1), rep(1, (1984 - 1982) * 12 - 1))
 ukseats <- ts(ukseats, start = start(ukdrivers), frequency = frequency(ukdrivers))
+
+ukinflation <- read.table('UKinflation.txt', skip = 1)
+ukinflation <- ts(ukinflation[[1]], start = c(1950, 1), frequency = 4)
+
+ukpulse <- rep(0, length.out = length(ukinflation))
+ukpulse[4*(1975-1950)+2] <- 1
+ukpulse[4*(1979-1950)+3] <- 1
+ukpulse <- ts(ukpulse, start = start(ukinflation), frequency = frequency(ukinflation))
 
 fatalities <- read.table('Norwayfinland.txt', skip = 1)
 colnames(fatalities) <- c('year', 'Norwegian_fatalities',
