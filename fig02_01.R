@@ -18,6 +18,7 @@ mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
 #################################################
 
 title <- 'Figure 2.1. Deterministic level.'
+title <- '図 2.1 確定的レベル'
 
 # 原系列
 p <- autoplot(y)
@@ -35,4 +36,5 @@ p + ggtitle(title)
 #################################################
 
 title <- 'Figure 2.2. Irregular component for deterministic level model.'
+title <- '図 2.2 確定的レベルに対する不規則要素'
 autoplot(y - mu, ts.linetype = 'dashed') + ggtitle(title)

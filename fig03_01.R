@@ -23,7 +23,8 @@ inits <- list(list(mu = mus[, 1], v = vs[, 1], sigma_irreg = irregs[1],
               list(mu = mus[, 4], v = vs[, 4], sigma_irreg = irregs[4],
                    sigma_level = levels[4], sigma_drift = drifts[4]))
 
-fit <- stan(file = 'fig03_01.stan', data = standata, iter = 8000, init = inits)
+fit <- stan(file = 'fig03_01.stan', data = standata,
+            warmup = 8000, iter = 16000, init = inits)
 stopifnot(is.converged(fit))
 
 mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
@@ -42,6 +43,7 @@ stopifnot(is.almost.fitted(sigma_drift^2, 1.5e-11))
 #################################################
 
 title <- 'Figure 3.1. Trend of stochastic linear trend model.'
+title <- '図 3.1 確率的線形トレンド・モデルのトレンド'
 
 # 原系列
 p <- autoplot(y)
@@ -60,6 +62,7 @@ fmt <- function(){
 }
 
 title <- 'Figure 3.2. Slope of stochastic linear trend model.'
+title <- '図 3.2 確率的線形トレンド・モデルの傾き'
 slope <- ts(v, start = start(y), frequency = frequency(y))
 autoplot(slope) + scale_y_continuous(labels = fmt()) + ggtitle(title)
 
@@ -68,4 +71,5 @@ autoplot(slope) + scale_y_continuous(labels = fmt()) + ggtitle(title)
 #################################################
 
 title <- 'Figure 3.3. Irregular component of stochastic linear trend model.'
+title <- '図 3.3 確率的線形トレンド・モデルに対する不規則要素'
 autoplot(y - yhat, ts.linetype = 'dashed') + ggtitle(title)

@@ -20,14 +20,15 @@ intercept <- get_posterior_mean(fit, par = 'intercept')[, 'mean-all chains']
 
 title <- paste('Figure 1.1. Scatter plot of the log of the number of UK drivers',
                'KSI against time (in months), including regression line.', sep = '\n')
+title <- paste('図 1.1 (月次)時間に対する英国ドライバーの',
+               '死傷者数の対数に回帰線を含めた散布図', sep = '\n')
 
 # 原系列
-p <- autoplot(y)
+p <- autoplot(y, ts.geom = 'point')
 
 # stan
 yhat <- ts(1:length(y) * slope + intercept,
            start = start(y), frequency = frequency(y))
-# p <- autoplot(yhat, p = p, ts.colour = 'blue', geom = 'point')
 p <- autoplot(yhat, p = p, ts.colour = 'blue')
 
 # 線形回帰 (lm)
@@ -45,6 +46,7 @@ p + ggtitle(title)
 #################################################
 
 title <- 'Figure 1.2. Log of the number of UK drivers KSI plotted as a time series.'
+title <- '図 1.2 英国ドライバーの死傷者数の対数の時系列'
 autoplot(y) + ggtitle(title)
 
 #################################################
@@ -53,4 +55,6 @@ autoplot(y) + ggtitle(title)
 
 title <- paste('Figure 1.3. Residuals of classical linear regression of the ',
                'log of the number of UK drivers KSI on time.', sep = '\n')
+title <- paste('図 1.3 時間に対する英国ドライバーの',
+               '死傷者数の対数の古典的線形型回帰の残差', sep = '\n')
 autoplot(y - yhat, ts.linetype = 'dashed') + ggtitle(title)

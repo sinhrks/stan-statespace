@@ -24,6 +24,7 @@ stopifnot(is.almost.fitted(sigma_level^2, 0.0047026))
 #################################################
 
 title <- 'Figure 2.5. Stochastic level for Norwegian fatalities.'
+title <- '図 2.5 ノルウェイの事故に対する確率的レベル'
 
 # 原系列
 p <- autoplot(y)
@@ -38,5 +39,6 @@ p + ggtitle(title)
 #################################################
 
 title <- 'Figure 2.6. Irregular component for Norwegian fatalities.'
+title <- '図 2.6 ノルウェイの事故に対する確率的要素'
 autoplot(y - yhat, ts.linetype = 'dashed') + ggtitle(title)
 

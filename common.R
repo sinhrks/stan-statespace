@@ -4,6 +4,7 @@
 # install_github('hoxo-m/pforeach')
 library(pforeach)
 library(ggplot2)
+ggplot2::theme_set(theme_gray(base_family="HiraKakuProN-W3"))
 # install_github('sinhrks/ggfortify')
 library(ggfortify)
 

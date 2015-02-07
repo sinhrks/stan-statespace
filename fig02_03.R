@@ -8,7 +8,8 @@ standata <- within(list(), {
   n <- length(y)
 })
 
-fit <- stan(file = 'fig02_03.stan', data = standata, iter = 6000)
+fit <- stan(file = 'fig02_03.stan', data = standata,
+            warmup = 4000, iter = 6000)
 stopifnot(is.converged(fit))
 
 mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
@@ -23,6 +24,7 @@ stopifnot(is.almost.fitted(sigma_level^2, 0.011866))
 #################################################
 
 title <- 'Figure 2.3. Stochastic level.'
+title <- '図 2.3 確率的レベル'
 
 # 原系列
 p <- autoplot(y)
@@ -37,4 +39,5 @@ p + ggtitle(title)
 #################################################
 
 title <- 'Figure 2.4. Irregular component for local level model.'
+title <- '図 2.4 ローカル・レベル・モデルに対する不規則要素'
 autoplot(y - yhat, ts.linetype = 'dashed') + ggtitle(title)
