@@ -1,6 +1,7 @@
-library(rstan)
-
 source('common.R', encoding = 'utf-8')
+
+## @knitr init_stan
+
 y <- ukdrivers
 
 standata <- within(list(), {
@@ -8,15 +9,25 @@ standata <- within(list(), {
   n <- length(y)
 })
 
-fit <- stan(file = 'fig01_01.stan', data = standata)
+## @knitr show_model
+
+model_file <- '../models/fig01_01.stan'
+cat(paste(readLines(model_file)), sep = '\n')
+
+## @knitr fit_stan
+
+stan_fit <- stan(file = model_file, chains = 0)
+sflist <- pforeach(i=1:4)({
+  stan(fit = stan_fit, data = standata,
+       iter = 2000, chains = 1, seed = i)
+})
+fit <- sflist2stanfit(sflist)
 stopifnot(is.converged(fit))
 
 slope <- get_posterior_mean(fit, par = 'slope')[, 'mean-all chains']
 intercept <- get_posterior_mean(fit, par = 'intercept')[, 'mean-all chains']
 
-#################################################
-# Figure 1.1
-#################################################
+## @knitr fig_1.1
 
 title <- paste('Figure 1.1. Scatter plot of the log of the number of UK drivers',
                'KSI against time (in months), including regression line.', sep = '\n')
@@ -41,17 +52,13 @@ lm.yhat <- ts(df$x * slope.lm + intercept.lm,
 p <- autoplot(lm.yhat, p = p, ts.colour = 'red', ts.linetype = 'dashed')
 p + ggtitle(title)
 
-#################################################
-# Figure 1.2
-#################################################
+## @knitr fig_1.2
 
 title <- 'Figure 1.2. Log of the number of UK drivers KSI plotted as a time series.'
 title <- '図 1.2 英国ドライバーの死傷者数の対数の時系列'
 autoplot(y) + ggtitle(title)
 
-#################################################
-# Figure 1.3
-#################################################
+## @knitr fig_1.3
 
 title <- paste('Figure 1.3. Residuals of classical linear regression of the ',
                'log of the number of UK drivers KSI on time.', sep = '\n')

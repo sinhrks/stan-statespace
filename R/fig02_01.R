@@ -1,6 +1,7 @@
-library(rstan)
-
 source('common.R', encoding = 'utf-8')
+
+## @knitr init_stan
+
 y <- ukdrivers
 
 standata <- within(list(), {
@@ -8,14 +9,24 @@ standata <- within(list(), {
   n <- length(y)
 })
 
-fit <- stan(file = 'fig02_01.stan', data = standata)
+## @knitr show_model
+
+model_file <- '../models/fig02_01.stan'
+cat(paste(readLines(model_file)), sep = '\n')
+
+## @knitr fit_stan
+
+stan_fit <- stan(file = model_file, chains = 0)
+sflist <- pforeach(i=1:4)({
+  stan(fit = stan_fit, data = standata,
+       iter = 2000, chains = 1, seed = i)
+})
+fit <- sflist2stanfit(sflist)
 stopifnot(is.converged(fit))
 
 mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
 
-#################################################
-# Figure 2.1
-#################################################
+## @knitr fig_2.1
 
 title <- 'Figure 2.1. Deterministic level.'
 title <- '図 2.1 確定的レベル'
@@ -31,9 +42,7 @@ p <- p + geom_hline(yintercept = mean(y),
                     colour = 'red', linetype = 'dashed')
 p + ggtitle(title)
 
-#################################################
-# Figure 2.2
-#################################################
+## @knitr fig_2.2
 
 title <- 'Figure 2.2. Irregular component for deterministic level model.'
 title <- '図 2.2 確定的レベルに対する不規則要素'

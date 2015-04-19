@@ -1,0 +1,50 @@
+---
+title: "状態空間時系列分析入門 第2章 (3/3)"
+output: html_document
+---
+
+``{rstan}`` で 「状態空間時系列分析入門」を再現したい。やっていること / 数式はテキストを参照。
+
+リポジトリ: https://github.com/sinhrks/stan-statespace
+
+```{r echo=FALSE}
+library(knitr)
+opts_chunk$set(fig.width=6, fig.height=3, fig.path='figures/fig02_05-', warning=FALSE)
+read_chunk('common.R')
+read_chunk('fig02_05.R')
+```
+
+## 必要パッケージのインストール/読み込み
+
+```{r install_packages, message=FALSE}
+```
+
+```{r load_packages, message=FALSE}
+```
+
+## 関数定義
+
+```{r func_defs}
+```
+
+## データの読み込み
+
+```{r fatalities}
+```
+
+## モデル定義
+
+```{r show_model, comment=''}
+```
+
+```{r init_stan}
+```
+
+```{r fit_stan, message=FALSE, warning=FALSE}
+```
+
+```{r fig_2.5}
+```
+
+```{r fig_2.6}
+```
