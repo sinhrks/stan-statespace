@@ -1,6 +1,7 @@
-library(rstan)
-
 source('common.R', encoding = 'utf-8')
+
+## @knitr init_stan
+
 y <- ukdrivers
 
 standata <- within(list(), {
@@ -8,12 +9,18 @@ standata <- within(list(), {
   n <- length(y)
 })
 
-stan_fit <- stan(file = 'fig04_06.stan', chains = 0)
-sflist <- pforeach(i=1:3)({
+## @knitr show_model
+
+model_file <- '../models/fig04_06.stan'
+cat(paste(readLines(model_file)), sep = '\n')
+
+## @knitr fit_stan
+
+stan_fit <- stan(file = model_file, chains = 0)
+fit <- pforeach(i = 1:4, .final = sflist2stanfit)({
   stan(fit = stan_fit, data = standata,
-       iter = 8000, chains = 1, seed = i)
+       warmup = 4000, iter = 8000, chains = 1, seed = i)
 })
-fit <- sflist2stanfit(sflist)
 stopifnot(is.converged(fit))
 
 yhat <- get_posterior_mean(fit, par = 'yhat')[, 'mean-all chains']
@@ -25,9 +32,7 @@ sigma_level <- get_posterior_mean(fit, par = 'sigma_level')[, 'mean-all chains']
 stopifnot(is.almost.fitted(sigma_irreg^2, 0.00351385))
 stopifnot(is.almost.fitted(sigma_level^2, 0.000945723))
 
-#################################################
-# Figure 4.6
-#################################################
+## @knitr output_figures
 
 title <- 'Figure 4.6. Stochastic level.'
 
@@ -39,25 +44,13 @@ mu <- ts(mu, start = start(y), frequency = frequency(y))
 p <- autoplot(mu, p = p, ts.colour = 'blue')
 p + ggtitle(title)
 
-#################################################
-# Figure 4.7
-#################################################
-
 title <- 'Figure 4.7. Stochastic seasonal.'
 seasonal <- ts(seasonal, start = start(y), frequency = frequency(y))
 autoplot(seasonal, ts.colour = 'blue') + ggtitle(title)
 
-#################################################
-# Figure 4.8
-#################################################
-
 title <- 'Figure 4.8. Stochastic seasonal for the year 1969.'
 s1969 <- ts(seasonal[1:12], start = start(y), frequency = frequency(y))
 autoplot(s1969, ts.colour = 'blue') + ggtitle(title)
-
-#################################################
-# Figure 4.9
-#################################################
 
 title <- 'Figure 4.9. Irregular component for stochastic level and seasonal model.'
 autoplot(y - yhat, ts.linetype = 'dashed') + ggtitle(title)

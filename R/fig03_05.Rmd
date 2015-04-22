@@ -1,5 +1,5 @@
 ---
-title: "状態空間時系列分析入門 第1章"
+title: "状態空間時系列分析入門 第3章 (3/3)"
 output: html_document
 ---
 
@@ -9,9 +9,9 @@ output: html_document
 
 ```{r echo=FALSE}
 library(knitr)
-opts_chunk$set(fig.width=6, fig.height=3, fig.path='figures/fig01-', warning=FALSE)
+opts_chunk$set(fig.width=6, fig.height=3, fig.path='figures/fig03_05-', warning=FALSE)
 read_chunk('common.R')
-read_chunk('fig01_01.R')
+read_chunk('fig03_05.R')
 ```
 
 ## 必要パッケージのインストール/読み込み
@@ -29,12 +29,12 @@ read_chunk('fig01_01.R')
 
 ## データの読み込み
 
-```{r ukdrivers}
+```{r fatalities}
 ```
 
 ## モデル定義
 
-線形回帰モデル。
+確定的レベルと確率的傾きをもつローカル線形トレンドモデル。
 
 ```{r show_model, comment=''}
 ```
@@ -47,3 +47,4 @@ read_chunk('fig01_01.R')
 
 ```{r output_figures}
 ```
+

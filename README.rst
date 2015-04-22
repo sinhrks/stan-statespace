@@ -7,7 +7,7 @@ Trying to reproduce the examples introduced in "An Introduction to State Space T
 Example data:
 ,,,,,,,,,,,,,
 
-It must be downloaded from http://www.ssfpack.com/CKbook.html by yourselves.
+From http://www.ssfpack.com/CKbook.html:
     - logUKpetrolprice.txt
     - NorwayFinland.txt
     - UKdriversKSI.txt
@@ -62,7 +62,7 @@ Stan で　"状態空間時系列分析入門" を再現する
 サンプルデータ:
 ,,,,,,,,,,,,,,,
 
-http://www.ssfpack.com/CKbook.html から 以下ファイルをダウンロードすること
+http://www.ssfpack.com/CKbook.html から:
     - logUKpetrolprice.txt
     - NorwayFinland.txt
     - UKdriversKSI.txt
@@ -72,15 +72,15 @@ http://www.ssfpack.com/CKbook.html から 以下ファイルをダウンロー�
 ,,,,,,,
 
 1. はじめに
-    - fig01_01.R: 線形回帰
+    - fig01_01.R: `線形回帰 <https://rpubs.com/sinhrks/sstsa_01_01>`_
 2. ローカル・レベル・モデル
-    - fig02_01.R: 確定的レベル
-    - fig02_03.R: 確率的レベル
-    - fig02_05.R: ローカル・レベル・モデルとノルウェイの事故
+    - fig02_01.R: `確定的レベル <https://rpubs.com/sinhrks/sstsa_02_01>`_
+    - fig02_03.R: `確率的レベル <https://rpubs.com/sinhrks/sstsa_02_03>`_
+    - fig02_05.R: `ローカル・レベル・モデルとノルウェイの事故 <https://rpubs.com/sinhrks/sstsa_02_05>`_
 3. ローカル線形トレンド・モデル
-    - fig03_01.R: 確率的レベルと確率的傾き
-    - fig03_04.R: 確率的レベルと確定的傾き
-    - fig03_05.R: ローカル線形トレンド・モデルとフィンランドの事故
+    - fig03_01.R: `確率的レベルと確率的傾き <https://rpubs.com/sinhrks/sstsa_03_01>`_
+    - fig03_04.R: `確率的レベルと確定的傾き <https://rpubs.com/sinhrks/sstsa_03_04>`_
+    - fig03_05.R: `ローカル線形トレンド・モデルとフィンランドの事故 <https://rpubs.com/sinhrks/sstsa_03_05>`_
 4. 季節要素のあるローカル・レベル・モデル
     - fig04_02.R: 確定的レベルと確定的季節要素
     - fig04_06.R: 確率的レベルと確率的季節要素

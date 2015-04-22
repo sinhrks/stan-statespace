@@ -1,7 +1,7 @@
-library(rstan)
-library(pforeach)
-
 source('common.R', encoding = 'utf-8')
+
+## @knitr init_stan
+
 y <- ukinflation
 
 standata <- within(list(), {
@@ -9,13 +9,19 @@ standata <- within(list(), {
   n <- length(y)
 })
 
+## @knitr show_model
+
 # can use the same model as fig04_06
-stan_fit <- stan(file = 'fig04_06.stan', chains = 0)
-sflist <- pforeach(i=1:3)({
+model_file <- '../models/fig04_06.stan'
+cat(paste(readLines(model_file)), sep = '\n')
+
+## @knitr fit_stan
+
+stan_fit <- stan(file = model_file, chains = 0)
+fit <- pforeach(i = 1:4, .final = sflist2stanfit)({
   stan(fit = stan_fit, data = standata,
        iter = 2000, chains = 1, seed = i)
 })
-fit <- sflist2stanfit(sflist)
 stopifnot(is.converged(fit))
 
 mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
@@ -30,9 +36,7 @@ stopifnot(is.almost.fitted(sigma_irreg^2, 3.3717e-5))
 stopifnot(is.almost.fitted(sigma_level^2, 2.1197e-5))
 stopifnot(is.almost.fitted(sigma_seas^2, 0.0109e-5))
 
-#################################################
-# Figure 4.10.1
-#################################################
+## @knitr output_figures
 
 title <- 'Figure 4.10.1. Stochastic level.'
 
@@ -44,17 +48,9 @@ mu <- ts(mu, start = start(y), frequency = frequency(y))
 p <- autoplot(mu, p = p, ts.colour = 'blue')
 p + ggtitle(title)
 
-#################################################
-# Figure 4.10.2
-#################################################
-
 title <- 'Figure 4.10.2. Stochastic seasonal.'
 seasonal <- ts(seasonal, start = start(y), frequency = frequency(y))
 autoplot(seasonal, ts.colour = 'blue') + ggtitle(title)
-
-#################################################
-# Figure 4.10.3
-#################################################
 
 title <- 'Figure 4.10.3. Irregular component for stochastic level and seasonal model.'
 autoplot(y - yhat, ts.linetype = 'dashed') + ggtitle(title)

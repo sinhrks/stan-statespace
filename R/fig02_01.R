@@ -17,16 +17,15 @@ cat(paste(readLines(model_file)), sep = '\n')
 ## @knitr fit_stan
 
 stan_fit <- stan(file = model_file, chains = 0)
-sflist <- pforeach(i=1:4)({
+fit <- pforeach(i = 1:4, .final = sflist2stanfit)({
   stan(fit = stan_fit, data = standata,
        iter = 2000, chains = 1, seed = i)
 })
-fit <- sflist2stanfit(sflist)
 stopifnot(is.converged(fit))
 
 mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
 
-## @knitr fig_2.1
+## @knitr output_figures
 
 title <- 'Figure 2.1. Deterministic level.'
 title <- '図 2.1 確定的レベル'
@@ -41,8 +40,6 @@ p <- p + geom_hline(yintercept = mu, colour = 'blue')
 p <- p + geom_hline(yintercept = mean(y),
                     colour = 'red', linetype = 'dashed')
 p + ggtitle(title)
-
-## @knitr fig_2.2
 
 title <- 'Figure 2.2. Irregular component for deterministic level model.'
 title <- '図 2.2 確定的レベルに対する不規則要素'
