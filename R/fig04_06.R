@@ -19,7 +19,7 @@ cat(paste(readLines(model_file)), sep = '\n')
 stan_fit <- stan(file = model_file, chains = 0)
 fit <- pforeach(i = 1:4, .final = sflist2stanfit)({
   stan(fit = stan_fit, data = standata,
-       warmup = 4000, iter = 8000, chains = 1, seed = i)
+       iter = 10000, chains = 1, seed = i)
 })
 stopifnot(is.converged(fit))
 
@@ -35,6 +35,7 @@ stopifnot(is.almost.fitted(sigma_level^2, 0.000945723))
 ## @knitr output_figures
 
 title <- 'Figure 4.6. Stochastic level.'
+title <- '図 4.3 確率的レベル'
 
 # 原系列
 p <- autoplot(y)
@@ -45,13 +46,19 @@ p <- autoplot(mu, p = p, ts.colour = 'blue')
 p + ggtitle(title)
 
 title <- 'Figure 4.7. Stochastic seasonal.'
+title <- '図 4.7 確定的季節'
+
 seasonal <- ts(seasonal, start = start(y), frequency = frequency(y))
 autoplot(seasonal, ts.colour = 'blue') + ggtitle(title)
 
 title <- 'Figure 4.8. Stochastic seasonal for the year 1969.'
+title <- '図 4.8 1969年に対する確率的季節'
+
 s1969 <- ts(seasonal[1:12], start = start(y), frequency = frequency(y))
 autoplot(s1969, ts.colour = 'blue') + ggtitle(title)
 
 title <- 'Figure 4.9. Irregular component for stochastic level and seasonal model.'
+title <- '図 4.9 確率的レベルと季節モデルに対する不規則要素'
+
 autoplot(y - yhat, ts.linetype = 'dashed') + ggtitle(title)
 
