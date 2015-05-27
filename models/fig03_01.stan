@@ -22,10 +22,15 @@ transformed parameters {
 }
 model {
   # 式 3.1
+  v[1] ~ normal(0, sigma_drift);
   for(t in 2:n-1)
     v[t] ~ normal(v[t-1], sigma_drift);
+  mu[1] ~ normal(y[1], sigma_level);
   for(t in 2:n)
     mu[t] ~ normal(mu[t-1] + v[t-1], sigma_level);
   for(t in 1:n)
     y[t] ~ normal(yhat[t], sigma_irreg);
+  sigma_level ~ inv_gamma(0.001, 0.001);
+  sigma_drift ~ inv_gamma(0.001, 0.001);
+  sigma_irreg ~ inv_gamma(0.001, 0.001);
 }

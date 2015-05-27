@@ -16,10 +16,14 @@ cat(paste(readLines(model_file)), sep = '\n')
 
 ## @knitr fit_stan
 
+lmresult <- lm(y ~ x, data = data.frame(x = 1:length(y), y = as.numeric(y)))
+init <- list(list(mu = rep(mean(y), length(y)), v = coefficients(lmresult)[[2]],
+                  sigma_level = sd(y) / 2, sigma_irreg = 0.001))
+
 stan_fit <- stan(file = model_file, chains = 0)
 fit <- pforeach(i = 1:4, .final = sflist2stanfit)({
   stan(fit = stan_fit, data = standata, 
-       warmup = 6000, iter = 12000, chains = 1, seed = i)
+       iter = 6000, chains = 1, seed = i, init = init)
 })
 stopifnot(is.converged(fit))
 

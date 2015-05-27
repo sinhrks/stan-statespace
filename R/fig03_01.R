@@ -16,10 +16,15 @@ cat(paste(readLines(model_file)), sep = '\n')
 
 ## @knitr fit_stan
 
+lmresult <- lm(y ~ x, data = data.frame(x = 1:length(y), y = as.numeric(y)))
+init <- list(list(mu = rep(mean(y), length(y)),
+                  v = rep(coefficients(lmresult)[[2]], length(y) - 1),
+                  sigma_level = sd(y) / 2, sigma_drift = sd(y) / 2, sigma_irreg = 0.001))
+
 stan_fit <- stan(file = model_file, chains = 0)
 fit <- pforeach(i = 1:4, .final = sflist2stanfit)({
   stan(fit = stan_fit, data = standata, 
-       warmup = 8000, iter = 16000, chains = 1, seed = i)
+       iter = 8000, chains = 1, seed = i, init = init)
 })
 stopifnot(is.converged(fit))
 
@@ -30,8 +35,7 @@ sigma_level <- get_posterior_mean(fit, par = 'sigma_level')[, 'mean-all chains']
 sigma_drift <- get_posterior_mean(fit, par = 'sigma_drift')[, 'mean-all chains']
 # stopifnot(is.almost.fitted(mu[[1]], 7.4157))
 is.almost.fitted(mu[[1]], 7.4157)
-# stopifnot(is.almost.fitted(v[[1]], 0.00028896))
-is.almost.fitted(v[[1]], 0.00028896)
+stopifnot(is.almost.fitted(v[[1]], 0.00028896))
 stopifnot(is.almost.fitted(sigma_irreg^2, 0.0021181))
 stopifnot(is.almost.fitted(sigma_level^2, 0.012128))
 stopifnot(is.almost.fitted(sigma_drift^2, 1.5e-11))

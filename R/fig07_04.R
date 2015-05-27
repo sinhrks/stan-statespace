@@ -1,6 +1,7 @@
-library(rstan)
-
 source('common.R', encoding = 'utf-8')
+
+## @knitr init_stan
+
 y <- ukinflation
 w <- ukpulse
 
@@ -10,7 +11,18 @@ standata <- within(list(), {
   n <- length(y)
 })
 
-fit <- stan(file = 'fig07_04.stan', data = standata, iter = 2000)
+## @knitr show_model
+
+model_file <- '../models/fig07_04.stan'
+cat(paste(readLines(model_file)), sep = '\n')
+
+## @knitr fit_stan
+
+stan_fit <- stan(file = model_file, chains = 0)
+fit <- pforeach(i = 1:4, .final = sflist2stanfit)({
+  stan(fit = stan_fit, data = standata, 
+       iter = 2000, chains = 1, seed = i)
+})
 stopifnot(is.converged(fit))
 
 yhat <- get_posterior_mean(fit, par = 'yhat')[, 'mean-all chains']
@@ -25,32 +37,22 @@ stopifnot(is.almost.fitted(sigma_irreg^2, 2.1990e-5))
 stopifnot(is.almost.fitted(sigma_level^2, 1.8595e-5))
 stopifnot(is.almost.fitted(sigma_seas^2, 0.0110e-5))
 
-#################################################
-# Figure 7.7.1
-#################################################
+## @knitr output_figures
 
-title <- 'Figure 7.7.1. Local level (including pulse interventions) for UK inflation time series data.'
-
-# 原系列
+title <- paste('Figure 7.7.1. Local level (including pulse interventions) ',
+               'for UK inflation time series data.', sep = '\n')
+title <- paste('図 7.7.1 英国インフレーション時系列データに',
+               '対するローカル・レベル(含むパルス干渉変数)', sep = '\n')
 p <- autoplot(y)
-
-# stan
 yhat <- ts(yhat, start = start(y), frequency = frequency(y))
 p <- autoplot(yhat, p = p, ts.colour = 'blue')
 p + ggtitle(title)
 
-#################################################
-# Figure 7.7.2
-#################################################
-
 title <- 'Figure 7.7.2. Local seasonal for UK inflation time series data.'
-
+title <- '図 7.7.2 ローカル季節'
 seasonal <- ts(seasonal, start = start(y), frequency = frequency(y))
 autoplot(seasonal, ts.colour = 'blue') + ggtitle(title)
 
-#################################################
-# Figure 7.7.3
-#################################################
-
 title <- 'Figure 7.7.3. Irregular for UK inflation time series data.'
+title <- '図 7.7.3 不規則要素'
 autoplot(y - yhat, ts.linetype = 'dashed') + ggtitle(title)

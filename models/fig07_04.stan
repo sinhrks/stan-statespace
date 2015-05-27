@@ -26,9 +26,9 @@ transformed parameters {
 model {
   # 式 7.1
 
-  # frequency = 12
-  for(t in 12:n) {
-    seasonal[t] ~ normal(-seasonal[t-11] - seasonal[t-10] - seasonal[t-9] - seasonal[t-8] - seasonal[t-7] - seasonal[t-6] - seasonal[t-5] - seasonal[t-4] - seasonal[t-3] - seasonal[t-2] - seasonal[t-1], sigma_seas);
+  # frequency = 4
+  for(t in 4:n) {
+    seasonal[t] ~ normal(-seasonal[t-3] - seasonal[t-2] - seasonal[t-1], sigma_seas);
   }
   for(t in 2:n)
     mu[t] ~ normal(mu[t-1], sigma_level);

@@ -11,8 +11,7 @@ standata <- within(list(), {
 
 ## @knitr show_model
 
-# can use the same model as fig04_06
-model_file <- '../models/fig04_06.stan'
+model_file <- '../models/fig04_10.stan'
 cat(paste(readLines(model_file)), sep = '\n')
 
 ## @knitr fit_stan
@@ -31,8 +30,7 @@ seasonal <- get_posterior_mean(fit, par = 'seasonal')[, 'mean-all chains']
 sigma_irreg <- get_posterior_mean(fit, par = 'sigma_irreg')[, 'mean-all chains']
 sigma_level <- get_posterior_mean(fit, par = 'sigma_level')[, 'mean-all chains']
 sigma_seas <- get_posterior_mean(fit, par = 'sigma_seas')[, 'mean-all chains']
-# stopifnot(is.almost.fitted(mu[[208]], 0.0020426))
-is.almost.fitted(mu[[208]], 0.0020426)
+stopifnot(is.almost.fitted(mu[[208]], 0.0020426))
 stopifnot(is.almost.fitted(sigma_irreg^2, 3.3717e-5))
 stopifnot(is.almost.fitted(sigma_level^2, 2.1197e-5))
 stopifnot(is.almost.fitted(sigma_seas^2, 0.0109e-5))
@@ -48,7 +46,7 @@ p <- autoplot(y)
 # stan
 mu <- ts(mu, start = start(y), frequency = frequency(y))
 p <- autoplot(mu, p = p, ts.colour = 'blue')
-p + ggtitle(title)
+p + ggtitle(title) + xlab('') + ylab('')
 
 title <- 'Figure 4.10.2. Stochastic seasonal.'
 title <- '図 4.10.2 英国インフレーション系列の確率的季節'

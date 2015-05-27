@@ -6,7 +6,7 @@ data {
 }
 parameters {
   # 確率的レベル
-  vector[n] mu;
+  vector<lower=mean(y)-3*sd(y), upper=mean(y)+3*sd(y)>[n] mu;
   # 確率的季節項
   vector[n] seasonal;
   # 確定的回帰係数
@@ -37,4 +37,10 @@ model {
     mu[t] ~ normal(mu[t-1], sigma_level);
   for(t in 1:n)
     y[t] ~ normal(yhat[t] + seasonal[t], sigma_irreg);
+
+  # beta ~ normal(0, 2);
+  # lambda ~ normal(mean(y) / mean(x), 2);
+  sigma_level ~ inv_gamma(0.001, 0.001);
+  sigma_seas ~ inv_gamma(0.001, 0.001);
+  sigma_irreg ~ inv_gamma(0.001, 0.001);
 }

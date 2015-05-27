@@ -5,7 +5,7 @@ data {
 parameters {
   # 確定的レベル
   vector[n] mu;
-  # 確定的季節項
+  # 確率的季節項
   vector[n] seasonal;
   # レベル撹乱項
   real<lower=0> sigma_level;
@@ -24,7 +24,7 @@ model {
   # 式 4.1
 
   # frequency = 4
-  for(t in 12:n) {
+  for(t in 4:n) {
     seasonal[t] ~ normal(-seasonal[t-3] - seasonal[t-2] - seasonal[t-1], sigma_seas);
   }
   for(t in 2:n)

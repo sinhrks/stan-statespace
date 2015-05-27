@@ -1,5 +1,5 @@
 ---
-title: "状態空間時系列分析入門 第4章 (2/3)"
+title: "状態空間時系列分析入門 第7章 (2/3)"
 output: html_document
 ---
 
@@ -9,9 +9,9 @@ output: html_document
 
 ```{r echo=FALSE}
 library(knitr)
-opts_chunk$set(fig.width=6, fig.height=3, fig.path='figures/fig04_06-', warning=FALSE)
+opts_chunk$set(fig.width=6, fig.height=3, fig.path='figures/fig07_02-', warning=FALSE)
 read_chunk('common.R')
-read_chunk('fig04_06.R')
+read_chunk('fig07_02.R')
 ```
 
 ## 必要パッケージのインストール/読み込み
@@ -32,9 +32,13 @@ read_chunk('fig04_06.R')
 ```{r ukdrivers}
 ```
 
-## モデル定義
+```{r ukpetrol}
+```
 
-確率的レベルと確率的季節要素のあるローカルレベルモデル。
+```{r ukseats}
+```
+
+## モデル定義
 
 ```{r show_model, comment=''}
 ```

@@ -20,10 +20,17 @@ ukdrivers <- read.table('../data/UKdriversKSI.txt', skip = 1)
 ukdrivers <- ts(ukdrivers[[1]], start = c(1969, 1), frequency = 12)
 ukdrivers <- log(ukdrivers)
 
+## @knitr ukdriversm
+
+ukdriversm <- read.table('../data/UKfrontrearseatKSI.txt', skip = 1)
+colnames(ukdriversm) <- c('UK drivers KSI', 'front seat KSI', 'rear Seat KSI',
+                          'Kilometers driven', 'petrol price')
+ukdriversm <- ts(ukdriversm, start = c(1969, 1), frequency = 12)
+
 ## @knitr ukpetrol
 
 ukpetrol <- read.table('../data/logUKpetrolprice.txt', skip = 1)
-ukpetrol <- ts(ukpetrol[[1]], start = start(ukdrivers), frequency = frequency(ukdrivers))
+ukpetrol <- ts(ukpetrol, start = start(ukdrivers), frequency = frequency(ukdrivers))
 
 ## @knitr ukseats
 
@@ -35,7 +42,7 @@ ukseats <- ts(ukseats, start = start(ukdrivers), frequency = frequency(ukdrivers
 ukinflation <- read.table('../data/UKinflation.txt', skip = 1)
 ukinflation <- ts(ukinflation[[1]], start = c(1950, 1), frequency = 4)
 
-## @knitr ukipulse
+## @knitr ukpulse
 
 ukpulse <- rep(0, length.out = length(ukinflation))
 ukpulse[4*(1975-1950)+2] <- 1

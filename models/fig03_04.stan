@@ -20,8 +20,12 @@ transformed parameters {
 }
 model {
   # 式 3.3
+  mu[1] ~ normal(y[1], sigma_level);
   for(t in 2:n)
     mu[t] ~ normal(mu[t-1] + v, sigma_level);
   for(t in 1:n)
     y[t] ~ normal(yhat[t], sigma_irreg);
+  sigma_level ~ inv_gamma(0.001, 0.001);
+  sigma_irreg ~ inv_gamma(0.001, 0.001);
+  v ~ normal(0, 5);
 }

@@ -5,9 +5,11 @@ data {
 }
 parameters {
   # 確率的レベル
-  vector[n] mu;
+  vector<lower=mean(y)-3*sd(y), upper=mean(y)+3*sd(y)>[n] mu;
+
   # 確定的回帰係数
-  real beta;
+  real<lower=-0.5, upper=0.5> beta;
+
   # レベル撹乱項
   real<lower=0> sigma_level;
   # 観測撹乱項
@@ -21,8 +23,14 @@ transformed parameters {
 }
 model {
   # 式 5.2
-  for(t in 2:n)
+  mu[1] ~ normal(y[1], sigma_level);
+  for (t in 2:n) {
     mu[t] ~ normal(mu[t-1], sigma_level);
-  for(t in 1:n)
+  }
+  for (t in 1:n) {
     y[t] ~ normal(yhat[t], sigma_irreg);
+  }
+  sigma_level ~ inv_gamma(0.001, 0.001);
+  sigma_irreg ~ inv_gamma(0.001, 0.001);
+  beta ~ normal(0, 2);
 }

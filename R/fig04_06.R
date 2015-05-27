@@ -35,7 +35,7 @@ stopifnot(is.almost.fitted(sigma_level^2, 0.000945723))
 ## @knitr output_figures
 
 title <- 'Figure 4.6. Stochastic level.'
-title <- '図 4.3 確率的レベル'
+title <- '図 4.6 確率的レベル'
 
 # 原系列
 p <- autoplot(y)
@@ -46,7 +46,7 @@ p <- autoplot(mu, p = p, ts.colour = 'blue')
 p + ggtitle(title)
 
 title <- 'Figure 4.7. Stochastic seasonal.'
-title <- '図 4.7 確定的季節'
+title <- '図 4.7 確率的季節'
 
 seasonal <- ts(seasonal, start = start(y), frequency = frequency(y))
 autoplot(seasonal, ts.colour = 'blue') + ggtitle(title)

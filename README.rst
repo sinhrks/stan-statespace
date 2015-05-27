@@ -12,6 +12,7 @@ From http://www.ssfpack.com/CKbook.html:
     - NorwayFinland.txt
     - UKdriversKSI.txt
     - UKinflation.txt
+    - UKfrontrearseatKSI.txt
 
 Models:
 ,,,,,,,
@@ -67,6 +68,7 @@ http://www.ssfpack.com/CKbook.html から:
     - NorwayFinland.txt
     - UKdriversKSI.txt
     - UKinflation.txt
+    - UKfrontrearseatKSI.txt
 
 モデル:
 ,,,,,,,
@@ -82,19 +84,19 @@ http://www.ssfpack.com/CKbook.html から:
     - fig03_04.R: `確率的レベルと確定的傾き <https://rpubs.com/sinhrks/sstsa_03_04>`_
     - fig03_05.R: `ローカル線形トレンド・モデルとフィンランドの事故 <https://rpubs.com/sinhrks/sstsa_03_05>`_
 4. 季節要素のあるローカル・レベル・モデル
-    - fig04_02.R: 確定的レベルと確定的季節要素
-    - fig04_06.R: 確率的レベルと確率的季節要素
-    - fig04_10.R: ローカル・レベルと季節モデルと英国インフレーション
+    - fig04_02.R: `確定的レベルと確定的季節要素 <https://rpubs.com/sinhrks/sstsa_04_02>`_
+    - fig04_06.R: `確率的レベルと確率的季節要素 <https://rpubs.com/sinhrks/sstsa_04_06>`_
+    - fig04_10.R: `ローカル・レベルと季節モデルと英国インフレーション <https://rpubs.com/sinhrks/sstsa_04_10>`_
 5. 説明変数のあるローカル・レベル・モデル
-    - fig05_01.R: 確定的レベルと(確定的)説明変数
+    - fig05_01.R: `確定的レベルと(確定的)説明変数 <https://rpubs.com/sinhrks/sstsa_05_01>`_
     - fig05_04.R: 確率的レベルと(確定的)説明変数
 6. 干渉変数のあるローカル・レベル・モデル
-    - fig06_01.R: 確定的レベルと(確定的)干渉変数
-    - fig06_04.R: 確率的レベルと(確定的)干渉変数
+    - fig06_01.R: `確定的レベルと(確定的)干渉変数 <https://rpubs.com/sinhrks/sstsa_06_01>`_
+    - fig06_04.R: `確率的レベルと(確定的)干渉変数 <https://rpubs.com/sinhrks/sstsa_06_04>`_
 7. 英国シートベルト法とインフレーション・モデル
-    - fig07_01.R: 確定的レベルと確定的季節要素
-    - fig07_02.R: 確率的レベルと確率的季節要素
-    - fig07_04.R: 英国インフレーション・モデル
+    - fig07_01.R: `確定的レベルと確定的季節要素 <https://rpubs.com/sinhrks/sstsa_07_01>`_
+    - fig07_02.R: `確率的レベルと確率的季節要素 <https://rpubs.com/sinhrks/sstsa_07_02>`_
+    - fig07_04.R: `英国インフレーション・モデル <https://rpubs.com/sinhrks/sstsa_07_04>`_
 8. 単変量状態空間モデルの一般的な取り扱い
 9. 多変量時系列分析
 10. 時系列分析に対する状態空間法とボックス・ジェンキンス法
