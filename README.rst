@@ -89,7 +89,7 @@ http://www.ssfpack.com/CKbook.html から:
     - fig04_10.R: `ローカル・レベルと季節モデルと英国インフレーション <https://rpubs.com/sinhrks/sstsa_04_10>`_
 5. 説明変数のあるローカル・レベル・モデル
     - fig05_01.R: `確定的レベルと(確定的)説明変数 <https://rpubs.com/sinhrks/sstsa_05_01>`_
-    - fig05_04.R: 確率的レベルと(確定的)説明変数
+    - fig05_04.R: `確率的レベルと(確定的)説明変数 <https://rpubs.com/sinhrks/sstsa_05_04>`_
 6. 干渉変数のあるローカル・レベル・モデル
     - fig06_01.R: `確定的レベルと(確定的)干渉変数 <https://rpubs.com/sinhrks/sstsa_06_01>`_
     - fig06_04.R: `確率的レベルと(確定的)干渉変数 <https://rpubs.com/sinhrks/sstsa_06_04>`_
