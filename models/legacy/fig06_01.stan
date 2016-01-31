@@ -13,9 +13,12 @@ parameters {
 }
 transformed parameters {
   vector[n] yhat;
-  yhat = mu + lambda * w;
+  for(t in 1:n) {
+    yhat[t] <- mu + lambda * w[t];
+  }
 }
 model {
   # 式 6.2
-  y ~ normal(yhat, sigma_irreg);
+  for(t in 1:n)
+    y[t] ~ normal(yhat[t], sigma_irreg);
 }

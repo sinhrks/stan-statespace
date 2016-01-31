@@ -10,27 +10,21 @@ parameters {
   # 確定的回帰係数
   real<lower=-0.5, upper=0.5> beta;
 
-  # レベル撹乱項
-  real<lower=0> sigma_level;
-  # 観測撹乱項
-  real<lower=0> sigma_irreg;
+  # 観測撹乱項 < レベル撹乱項
+  positive_ordered[2] sigma;
 }
 transformed parameters {
   vector[n] yhat;
-  for(t in 1:n) {
-    yhat[t] <- mu[t] + beta * x[t];
-  }
+  yhat = mu + beta * x;
 }
 model {
   # 式 5.2
-  mu[1] ~ normal(y[1], sigma_level);
-  for (t in 2:n) {
-    mu[t] ~ normal(mu[t-1], sigma_level);
-  }
-  for (t in 1:n) {
-    y[t] ~ normal(yhat[t], sigma_irreg);
-  }
-  sigma_level ~ inv_gamma(0.001, 0.001);
-  sigma_irreg ~ inv_gamma(0.001, 0.001);
+  mu[1] ~ normal(y[1], sigma[2]);
+  for (t in 2:n)
+    mu[t] ~ normal(mu[t-1], sigma[2]);
+
+  y ~ normal(yhat, sigma[1]);
+
+  sigma ~ student_t(4, 0, 1);
   beta ~ normal(0, 2);
 }

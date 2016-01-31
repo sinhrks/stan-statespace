@@ -19,20 +19,21 @@ cat(paste(readLines(model_file)), sep = '\n')
 lmresult <- lm(y ~ x, data = data.frame(x = 1:length(y), y = as.numeric(y)))
 init <- list(list(mu = rep(mean(y), length(y)),
                   v = rep(coefficients(lmresult)[[2]], length(y) - 1),
-                  sigma_level = sd(y) / 2, sigma_drift = sd(y) / 2, sigma_irreg = 0.001))
+                  sigma_level = sd(y) / 2,
+                  sigma_drift = sd(y) / 2,
+                  sigma_irreg = 0.001))
 
-stan_fit <- stan(file = model_file, chains = 0)
-fit <- pforeach(i = 1:4, .final = sflist2stanfit)({
-  stan(fit = stan_fit, data = standata, 
-       iter = 8000, chains = 1, seed = i, init = init)
-})
+fit <- stan(file = model_file, data = standata,
+            iter = 10000, chains = 4, seed = 12345)
 stopifnot(is.converged(fit))
 
 mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
 v <- get_posterior_mean(fit, par = 'v')[, 'mean-all chains']
-sigma_irreg <- get_posterior_mean(fit, par = 'sigma_irreg')[, 'mean-all chains']
-sigma_level <- get_posterior_mean(fit, par = 'sigma_level')[, 'mean-all chains']
-sigma_drift <- get_posterior_mean(fit, par = 'sigma_drift')[, 'mean-all chains']
+sigma <- get_posterior_mean(fit, par = 'sigma')[, 'mean-all chains']
+sigma_drift <- sigma[[1]]
+sigma_irreg <- sigma[[2]]
+sigma_level <- sigma[[3]]
+
 # stopifnot(is.almost.fitted(mu[[1]], 7.4157))
 is.almost.fitted(mu[[1]], 7.4157)
 stopifnot(is.almost.fitted(v[[1]], 0.00028896))
@@ -65,3 +66,4 @@ autoplot(slope) + scale_y_continuous(labels = fmt()) + ggtitle(title)
 title <- 'Figure 3.3. Irregular component of stochastic linear trend model.'
 title <- '図 3.3 確率的線形トレンド・モデルに対する不規則要素'
 autoplot(y - yhat, ts.linetype = 'dashed') + ggtitle(title)
+

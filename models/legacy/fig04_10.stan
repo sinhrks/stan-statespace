@@ -3,7 +3,7 @@ data {
   vector[n] y;
 }
 parameters {
-  # 確率的レベル
+  # 確定的レベル
   vector[n] mu;
   # 確率的季節項
   vector[n] seasonal;
@@ -16,17 +16,19 @@ parameters {
 }
 transformed parameters {
   vector[n] yhat;
-  yhat = mu + seasonal;
+  for(t in 1:n) {
+    yhat[t] <- mu[t] + seasonal[t];
+  }
 }
 model {
   # 式 4.1
 
-  # frequency = 12
-  for(t in 12:n)
-    seasonal[t] ~ normal(- sum(seasonal[t-11:t-1]), sigma_seas);
-
+  # frequency = 4
+  for(t in 4:n) {
+    seasonal[t] ~ normal(-seasonal[t-3] - seasonal[t-2] - seasonal[t-1], sigma_seas);
+  }
   for(t in 2:n)
     mu[t] ~ normal(mu[t-1], sigma_level);
-
-  y ~ normal(yhat, sigma_irreg);
+  for(t in 1:n)
+    y[t] ~ normal(yhat[t], sigma_irreg);
 }

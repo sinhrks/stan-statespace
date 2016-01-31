@@ -20,15 +20,17 @@ transformed parameters {
   vector[n] seasonal;
   vector[n] yhat;
   for(t in 1:11) {
-    seasonal[t] = seas[t];
+    seasonal[t] <- seas[t];
   }
   for(t in 12:n) {
-    seasonal[t] = - sum(seasonal[t-11:t-1]);
+    seasonal[t] <- - seasonal[t-11] - seasonal[t-10] - seasonal[t-9] - seasonal[t-8] - seasonal[t-7] - seasonal[t-6] - seasonal[t-5] - seasonal[t-4] - seasonal[t-3] - seasonal[t-2] - seasonal[t-1];
   }
-
-  yhat = mu + beta * x + lambda * w;
+  for(t in 1:n) {
+    yhat[t] <- mu + beta * x[t] + lambda * w[t];
+  }
 }
 model {
   # 式 7.1
-  y ~ normal(yhat + seasonal, sigma_irreg);
+  for(t in 1:n)
+    y[t] ~ normal(yhat[t] + seasonal[t], sigma_irreg);
 }

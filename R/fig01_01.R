@@ -16,11 +16,8 @@ cat(paste(readLines(model_file)), sep = '\n')
 
 ## @knitr fit_stan
 
-stan_fit <- stan(file = model_file, chains = 0)
-fit <- pforeach(i = 1:4, .final = sflist2stanfit)({
-  stan(fit = stan_fit, data = standata,
-       iter = 2000, chains = 1, seed = i)
-})
+fit <- stan(model_file, data = standata,
+            iter = 2000, chains = 4)
 stopifnot(is.converged(fit))
 
 slope <- get_posterior_mean(fit, par = 'slope')[, 'mean-all chains']

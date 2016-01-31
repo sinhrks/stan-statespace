@@ -22,17 +22,15 @@ lmresult <- lm(y ~ x, data = data.frame(x = 1:length(y), y = as.numeric(y)))
 init <- list(list(mu = rep(mean(y), length(y)), beta = coefficients(lmresult)[[2]],
                   sigma_level = sd(y) / 2, sigma_irreg = 0.001))
 
-stan_fit <- stan(file = model_file, chains = 0)
-fit <- pforeach(i = 1:4, .final = sflist2stanfit)({
-  stan(fit = stan_fit, data = standata, 
-       iter = 4000, chains = 1, seed = i, init = init)
-})
+fit <- stan(file = model_file, data = standata,
+            iter = 6000, chains = 4)
 stopifnot(is.converged(fit))
 
 yhat <- get_posterior_mean(fit, par = 'yhat')[, 'mean-all chains']
 mu <- get_posterior_mean(fit, par = 'mu')[, 'mean-all chains']
 beta <- get_posterior_mean(fit, par = 'beta')[, 'mean-all chains']
-sigma_irreg <- get_posterior_mean(fit, par = 'sigma_irreg')[, 'mean-all chains']
+sigma <- get_posterior_mean(fit, par = 'sigma')[, 'mean-all chains']
+sigma_irreg <- sigma[[1]]
 # stopifnot(is.almost.fitted(mu[[1]], 6.824))
 is.almost.fitted(mu[[1]], 6.824)
 # stopifnot(is.almost.fitted(beta, -0.26105))
