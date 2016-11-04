@@ -13,12 +13,9 @@ parameters {
 }
 transformed parameters {
   vector[n] yhat;
-  for(t in 1:n) {
-    yhat[t] <- mu + beta * x[t];
-  }
+  yhat = mu + beta * x;
 }
 model {
   # 式 5.3
-  for(t in 1:n)
-    y[t] ~ normal(yhat[t], sigma_irreg);
+  y ~ normal(yhat, sigma_irreg);
 }

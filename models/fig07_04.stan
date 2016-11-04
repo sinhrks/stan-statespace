@@ -19,19 +19,17 @@ parameters {
 }
 transformed parameters {
   vector[n] yhat;
-  for(t in 1:n) {
-    yhat[t] <- mu[t] + lambda * w[t];
-  }
+  yhat = mu + lambda * w;
 }
 model {
   # 式 7.1
 
   # frequency = 4
-  for(t in 4:n) {
-    seasonal[t] ~ normal(-seasonal[t-3] - seasonal[t-2] - seasonal[t-1], sigma_seas);
-  }
+  for(t in 4:n)
+    seasonal[t] ~ normal(- sum(seasonal[t-3:t-1]), sigma_seas);
+
   for(t in 2:n)
     mu[t] ~ normal(mu[t-1], sigma_level);
-  for(t in 1:n)
-    y[t] ~ normal(yhat[t] + seasonal[t], sigma_irreg);
+
+  y ~ normal(yhat + seasonal, sigma_irreg);
 }

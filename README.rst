@@ -47,14 +47,6 @@ Models:
 
 **IMPORTANT** Some models output different results from textbook and R's `{dlm}` package.
 
-Required packages:
-,,,,,,,,,,,,,,,,,,
-
-These packages must be installed from github ( `devtools::install_github` )
-
-- `{pforeach} <https://github.com/hoxo-m/pforeach>`_ for parallel processing
-- `{ggfortify} <https://github.com/sinhrks/ggfortify>`_ for timeseries plotting
-
 Japanese
 --------
 
@@ -102,11 +94,3 @@ http://www.ssfpack.com/CKbook.html から:
 10. 時系列分析に対する状態空間法とボックス・ジェンキンス法
 
 **重要** いくつかのモデルはテキスト、ならびに Rの `{dlm}` パッケージとは異なる値となっている
-
-必要パッケージ:
-,,,,,,,,,,,,,,,
-
-以下パッケージは  `devtools::install_github` でのインストールが必要。
-
-- `{pforeach} <https://github.com/hoxo-m/pforeach>`_ ( 並列化に利用 )
-- `{ggfortify} <https://github.com/sinhrks/ggfortify>`_ ( `ts` インスタンスのプロットに利用 )

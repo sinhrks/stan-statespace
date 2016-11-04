@@ -2,17 +2,18 @@
 
 ## @knitr install_packages
 
-library(devtools)
-# devtools::install_github('hoxo-m/pforeach')
-# devtools::install_github('sinhrks/ggfortify')
+# install.packages('ggfortify')
 
 ## @knitr load_packages
 
 library(rstan)
-library(pforeach)
 library(ggplot2)
 ggplot2::theme_set(theme_bw(base_family="HiraKakuProN-W3"))
 library(ggfortify)
+
+# do in parallel
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
 
 ## @knitr ukdrivers
 
