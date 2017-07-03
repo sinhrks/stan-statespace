@@ -52,7 +52,7 @@ ukpulse <- ts(ukpulse, start = start(ukinflation), frequency = frequency(ukinfla
 
 ## @knitr fatalities
 
-fatalities <- read.table('../data/Norwayfinland.txt', skip = 1)
+fatalities <- read.table('../data/NorwayFinland.txt', skip = 1)
 colnames(fatalities) <- c('year', 'Norwegian_fatalities',
                           'Finnish_fatalities')
 norwegian_fatalities <- fatalities[['Norwegian_fatalities']]
